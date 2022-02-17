@@ -1,0 +1,136 @@
+{
+	"variables": [],
+	"info": {
+		"name": "kata testing",
+		"_postman_id": "fe5762c8-da09-9e85-64cb-6af9f6c91e11",
+		"description": "make client operations\ncreate, update and get client info",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/raoul/authenticate",
+			"request": {
+				"url": "http://localhost:8080/raoul/authenticate",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"secureuser\",\n\t\"password\": \"password\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/raoul/operations/statement",
+			"request": {
+				"url": "http://localhost:8080/raoul/operations/statement",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "",
+						"value": "",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWN1cmV1c2VyIiwiZXhwIjoxNjQ1MTQ3MTc1LCJpYXQiOjE2NDUxMjkxNzV9.orb_6ruNhrV9VoTAuBon1xm5PxS4AszOqa0Q9S7P52IT9wmRvz27eg0CJuzp4Pag9uTIBwMn6XUJsoeCBx730A",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"client_id\": 1,\n\t\"date_from\": \"2021-12-31\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/raoul/operations/deposit",
+			"request": {
+				"url": "http://localhost:8080/raoul/operations/deposit",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWN1cmV1c2VyIiwiZXhwIjoxNjQ1MTM4NDAyLCJpYXQiOjE2NDUxMjA0MDJ9.WlQwexyPPVeFP6y5vd6g7Ql0WX4QOi9fqpXMccMMe8sMJyhFgvEn1JTcVCvtZBNV0F8HkuvpGuYp7TzddvU1jQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"client_id\": 1,\n\t\"amount\": 500,\n\t\"date\": \"2021-12-01\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/raoul/clients/create",
+			"request": {
+				"url": "http://localhost:8080/raoul/clients/create",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWN1cmV1c2VyIiwiZXhwIjoxNjQ1MTM5MDcxLCJpYXQiOjE2NDUxMjEwNzF9.MA-zLuEOx367eKa9FXeN3m9BEz4vCmbhgF9LzaJJSGttOkWtYnKwK2-5PIGlaoEST1uPU5-XXMEAIsKtydeMYQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"HELLO\",\n\t\"last_name\": \"WORLD\",\n\t\"phone_number\": \"0101010101\",\n\t\"email\": \"email@email.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/raoul/clients/info/3",
+			"request": {
+				"url": "http://localhost:8080/raoul/clients/info/3",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWN1cmV1c2VyIiwiZXhwIjoxNjQ1MTM5MDcxLCJpYXQiOjE2NDUxMjEwNzF9.MA-zLuEOx367eKa9FXeN3m9BEz4vCmbhgF9LzaJJSGttOkWtYnKwK2-5PIGlaoEST1uPU5-XXMEAIsKtydeMYQ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"client\": 1,\n\t\"amount\": 500,\n\t\"date\": \"16/02/2022\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
