@@ -31,7 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException {
+			throws ServletException, IOException, ExpiredJwtException {
 
 		final String requestTokenHeader = request.getHeader("Authorization");
 
@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
-			} catch (ExpiredJwtException e) {
+			} catch (Exception e) {
 				System.out.println("JWT Token has expired");
 			}
 		} else {

@@ -3,8 +3,6 @@ package com.kata.raoul.controllers;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +19,13 @@ import com.kata.raoul.domain.OperationType;
 import com.kata.raoul.beans.request.OperationRequestBean;
 import com.kata.raoul.beans.request.StatementRequestBean;
 import com.kata.raoul.beans.response.SummaryResponseBean;
+import com.kata.raoul.controllers.parent.SuperController;
 import com.kata.raoul.services.IClientService;
 import com.kata.raoul.services.IOperationService;
 
 @RestController
 @RequestMapping("/operations")
-public class OperationsController {
+public class OperationsController extends SuperController {
 
 	@Autowired
 	protected IOperationService operationServices;
@@ -34,22 +33,16 @@ public class OperationsController {
 	@Autowired
 	protected IClientService clientServices;
 	
-	protected static Log LOG = LogFactory.getLog(OperationsController.class.getName());
-	
 	@PostMapping("/deposit")
 	public ResponseEntity<ResponseWrapper> makeClientDeposit(@RequestBody OperationRequestBean operationRequest)
 	{
 		try {
 			operationServices.makeClientOperation(new Operation(new OperationType(OperationType.DEPOSIT), new Client(operationRequest.getClientId()), operationRequest.getAmount(), operationRequest.getDate()));
 		} catch (Exception e) {
-			//log exception here
-			String localizedMessage = e.getLocalizedMessage();
-			System.out.println(localizedMessage);
-			LOG.error(localizedMessage);
-			return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(e), HttpStatus.BAD_REQUEST);
+			return extracted(e);
 		}
 
-		return new ResponseEntity<ResponseWrapper>(HttpStatus.OK);
+		return new ResponseEntity<ResponseWrapper>(new ResponseWrapper("Successful client deposit"), HttpStatus.OK);
 	}
 
 	@PostMapping("/withdrawal")
@@ -58,14 +51,10 @@ public class OperationsController {
 		try {
 			operationServices.makeClientOperation(new Operation(new OperationType(OperationType.WITHDRAWAL), new Client(operationRequest.getClientId()), operationRequest.getAmount(), operationRequest.getDate()));
 		} catch (Exception e) {
-			//log exception here
-			String localizedMessage = e.getLocalizedMessage();
-			System.out.println(localizedMessage);
-			LOG.error(localizedMessage);
-			return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(e), HttpStatus.BAD_REQUEST);
+			return extracted(e);
 		}
 		
-		return new ResponseEntity<ResponseWrapper>(HttpStatus.OK);
+		return new ResponseEntity<ResponseWrapper>(new ResponseWrapper("Successful client withdrawal"), HttpStatus.OK);
 	}
 
 	@PostMapping("/statement")
@@ -92,13 +81,10 @@ public class OperationsController {
 			}
 			summary = new SummaryResponseBean(client, clientOperations, balance);
 		} catch (Exception e) {
-			//log exception here
-			String localizedMessage = e.getLocalizedMessage();
-			System.out.println(localizedMessage);
-			LOG.error(localizedMessage);
-			return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(e), HttpStatus.BAD_REQUEST);
+			return extracted(e);
 		}
 		
 		return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(summary), HttpStatus.OK);
 	}
+
 }

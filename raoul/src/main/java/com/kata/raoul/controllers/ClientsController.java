@@ -1,7 +1,5 @@
 package com.kata.raoul.controllers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,33 +14,42 @@ import com.kata.raoul.wrappers.ResponseWrapper;
 import com.sun.istack.NotNull;
 import com.kata.raoul.domain.Client;
 import com.kata.raoul.beans.request.ClientRequestBean;
+import com.kata.raoul.beans.request.ClientUpdateRequestBean;
 import com.kata.raoul.beans.response.ClientResponseBean;
+import com.kata.raoul.controllers.parent.SuperController;
 import com.kata.raoul.services.IClientService;
 
 @RestController
 @RequestMapping("/clients")
-public class ClientsController {
+public class ClientsController extends SuperController {
 
 	@Autowired
 	protected IClientService clientServices;
 	
-	protected static Log LOG = LogFactory.getLog(ClientsController.class.getName());
-	
-	@PostMapping(value = {"/create", "/update"})
+	@PostMapping("/create")
 	public ResponseEntity<ResponseWrapper> createClient(@RequestBody ClientRequestBean clientRequest)
 	{
 		try {
 			Client client = new Client(clientRequest.getFirstName(), clientRequest.getLastName(), clientRequest.getPhoneNumber(), clientRequest.getEmail());
 			clientServices.saveClient(client);
 		} catch (Exception e) {
-			//log exception here
-			String localizedMessage = e.getLocalizedMessage();
-			System.out.println(localizedMessage);
-			LOG.error(localizedMessage);
-			return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(e), HttpStatus.BAD_REQUEST);
+			return extracted(e);
 		}
 
-		return new ResponseEntity<ResponseWrapper>(HttpStatus.OK);
+		return new ResponseEntity<ResponseWrapper>(new ResponseWrapper("Client created"), HttpStatus.OK);
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<ResponseWrapper> updateClient(@RequestBody ClientUpdateRequestBean clientRequest)
+	{
+		try {
+			Client client = new Client(clientRequest.getId(), clientRequest.getFirstName(), clientRequest.getLastName(), clientRequest.getPhoneNumber(), clientRequest.getEmail());
+			clientServices.saveClient(client);
+		} catch (Exception e) {
+			return extracted(e);
+		}
+
+		return new ResponseEntity<ResponseWrapper>(new ResponseWrapper("Client updated"), HttpStatus.OK);
 	}
 
 	@GetMapping("/info/{id}")
@@ -53,11 +60,7 @@ public class ClientsController {
 			Client client = clientServices.getClientInfo(id);
 			clientBean = new ClientResponseBean(client);
 		} catch (Exception e) {
-			//log exception here
-			String localizedMessage = e.getLocalizedMessage();
-			System.out.println(localizedMessage);
-			LOG.error(localizedMessage);
-			return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(e), HttpStatus.BAD_REQUEST);
+			return extracted(e);
 		}
 		
 		return new ResponseEntity<ResponseWrapper>(new ResponseWrapper(clientBean), HttpStatus.OK);
