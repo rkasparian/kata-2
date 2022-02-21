@@ -1,5 +1,5 @@
 # kata-2
-Micro-services application
+Micro-services tomcat server 8.5 application
 Features:
 1- create/update clients
 2- get client info
